@@ -1,0 +1,63 @@
+
+<!Doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="stylesheet" href="example.css">
+<body>
+<main id="main">
+    <div id="chart"></div>
+</main>
+<div id="editor" hidden="hidden">
+    <textarea></textarea>
+</div>
+
+<script type="text/x-javascript" id="code-source">
+myChart.setOption({
+    title: {
+        text: 'Map with texture',
+        x: 'center',
+        textStyle: {
+            color: 'white'
+        }
+    },
+    tooltip: {
+        formatter: '{b}'
+    },
+    series: [{
+        type: 'map3d',
+        mapType: 'world',
+        baseLayer: {
+            backgroundColor: '',
+            backgroundImage: 'img/earth.jpg',
+            quality: 'high',
+        },
+
+        selectedMode: 'single',
+
+        itemStyle: {
+            normal: {
+                label: {
+                    show: true
+                },
+                borderWidth: 1,
+                borderColor: 'yellow',
+                areaStyle: {
+                    color: 'rgba(0, 0, 0, 0)'
+                }
+            }
+        },
+        data: [{}]
+    }]
+});
+</script>
+
+<script src="lib/esl.js"></script>
+<script src="lib/jquery.min.js"></script>
+<script src="js/bootExample.js"></script>
+
+</body>
+</head>
+</html>

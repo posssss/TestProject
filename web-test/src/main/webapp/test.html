@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery-1.8.3.min.js"></script>
+
+</head>
+<body>
+<p id="demo"></p>
+<script>
+
+    demoP = document.getElementById("demo");
+
+    function geyCityGeoCoord(cityName,cityData) {
+        var cityGeoCoord = [];
+        cityData.forEach(function (value) {
+            if (value.name === cityName) {
+                cityGeoCoord = value.geoCoord;
+                return false;
+            }
+        });
+        return cityGeoCoord;
+    }
+
+    function getLink(src,dst) {
+        var srcGeoCoord = geyCityGeoCoord(src,cityData);
+        var desGeoCoord = geyCityGeoCoord(dst,cityData);
+        return [{geoCoord:srcGeoCoord}, {geoCoord:desGeoCoord}];
+    }
+
+    var ipLocationMap = '{"上海":{"city":"上海","continent":"亚洲","country":"中国","latitude":31.0456,"longitude":121.3997,"radius":200},"芒廷维尤":{"city":"芒廷维尤","continent":"北美洲","country":"美国","latitude":37.4056,"longitude":-122.0775,"radius":1000},"北京":{"city":"北京","continent":"亚洲","country":"中国","latitude":39.9288,"longitude":116.3889,"radius":50}}';      // 地图上的坐标信息
+    var cityKeys = '["上海","芒廷维尤","北京"]';                                        // 所有的地点城市
+    var linkDataMap = '{"上海":["北京"],"北京":["北京","上海","芒廷维尤"]}';                  // 坐标之间的关系
+
+    var ipLocationMapJson = JSON.parse(ipLocationMap);
+    var cityKeysJson = JSON.parse(cityKeys);
+    var linkMapJson = JSON.parse(linkDataMap);
+
+    var cityData = [];
+
+    // 加载所有城市坐标
+    cityKeysJson.forEach(function (value) {
+        cityData.push({name:value,geoCoord:[ipLocationMapJson[value]['latitude'],ipLocationMapJson[value]['longitude']]});
+    });
+
+    var linkMap = [];
+
+    // 加载所有连线
+    for(var key in linkMapJson){
+        myFunction("key = " + key);
+        linkMapJson[key].forEach(function (value) {
+            myFunction("value = " + value);
+            linkMap.push(getLink(key,value));
+            linkMap.push(getLink(value,key))
+        })
+    }
+    myFunction("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    myFunction("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    function myFunction(item) {
+        demoP.innerHTML = demoP.innerHTML + " " + item + "<br>";
+    }
+
+    linkMap.forEach(function (value){
+        myFunction("value = " + value);
+        value.forEach(function (value2) {
+            value2.geoCoord.forEach(function (value1) {
+                myFunction(value1);
+            });
+        });
+        myFunction(" ");
+    });
+
+</script>
+</body>
+</html>
