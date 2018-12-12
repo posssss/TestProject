@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="echarts-lib/js/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+<div id="main"></div>
+
+<!-- 必须要先引入 ECharts 主文件 -->
+<script src="echarts-lib/lib/echarts/echarts.js"></script>
+<script src="echarts-lib/lib/echarts/chart/map.js"></script>
+<!-- 引入 ECharts-X 主文件 -->
+<script src="echarts-lib/lib/echarts-x/echarts-x.js"></script>
+
+<script type="text/javascript">
+
+    try {
+        var canvas = document.createElement('canvas');
+        var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (!gl) {
+            throw "浏览器不支持";
+        }
+    } catch (e) {
+        // 浏览器不支持 WebGL
+        console.warn(e);
+    }
+
+    function resize() {
+        $('#main').height($(window).height() - $('#header').height());
+    }
+    $(window).resize(resize);
+    resize();
+
+    // 配置后续加载的各种 chart 配置 config
+    require.config({
+        paths: {
+            "lib": 'echarts-lib/lib',
+            'echarts': 'echarts-lib/lib/echarts',
+            'echarts-x': 'echarts-lib/lib/echarts-x'
+        }
+    });
+
+    var ex;
+
+    // 然后就可以动态加载图表进行绘制啦
+    require([
+        'echarts',
+        'echarts-x',
+        // ECharts-X 中 map3d 的地图绘制基于 ECharts 中的 map。
+        'echarts/chart/map',
+        'echarts-x/chart/map3d'
+    ], function (ec) {
+        ex = ec;
+        load(ex);
+    });
+
+    function load(ex) {
+        var main = document.getElementById('main');
+        main.html = "";
+        // 跟 ECharts 一样的方式初始化
+        var myChart = ex.init(main);
+        myChart.showLoading();
+
+        var markPointStyle = {
+            normal: {
+                color: 'red'
+            }
+        };
+
+        var opts = {
+            title: {
+                text: '远程控制',
+                subtext: '远程控制',
+                x:'center',
+                y:'top',
+                textStyle: {
+                    color: 'white'
+                }
+            },
+            tooltip: {
+                formatter: '{b}'
+            },
+            series: [{
+                type: 'map3d',
+                mapType: 'world',
+                baseLayer: {
+                    backgroundColor: '',
+                    backgroundImage: 'echarts-lib/img/earth.jpg'
+                },
+                itemStyle: {
+                    normal: {
+                        borderWidth: 3,
+                        borderColor: 'yellow',
+                        areaStyle: {
+                            color: 'rgba(0, 0, 0, 0)'
+                        }
+                    }
+                },
+                markPoint: {
+                    effect: {
+                        shadowBlur: 1
+                    },
+                    large: true,
+                    symbolSize: 50,
+                    data: [
+                        {
+                            itemStyle: markPointStyle,
+                            geoCoord: [116.387778,39.7825]
+                        },
+                        {
+                            itemStyle: markPointStyle,
+                            geoCoord: [114.2081,30.783758]
+                        },
+                        {
+                            itemStyle: markPointStyle,
+                            geoCoord: [108.751592,34.447119]
+                        },
+                        {
+                            itemStyle: markPointStyle,
+                            geoCoord: [139.779694,35.552258]
+                        },
+                        {
+                            itemStyle: markPointStyle,
+                            geoCoord: [-86.8138056,39.6335556]
+                        }
+                    ]
+                },
+                markLine: {
+                    itemStyle: {
+                        normal: {
+                            // 线的颜色默认是取 legend 的颜色
+                            // color: null
+                            // 线宽，这里线宽是屏幕的像素大小
+                            width: 10,
+                            // 线的透明度
+                            opacity: 1
+                        }
+                    },
+                    effect: {
+                        show: true,
+                        scaleSize: 10
+                    },
+                    data: [
+                        [{geoCoord: [116.387778,39.7825]}, {geoCoord: [114.2081,30.783758]}],
+                        [{geoCoord: [139.779694,35.552258]}, {geoCoord: [114.2081,30.783758]}],
+                        [{geoCoord: [116.387778,39.7825]}, {geoCoord: [108.751592,34.447119]}],
+                        [{geoCoord: [116.387778,39.7825]}, {geoCoord: [-86.8138056,39.6335556]}]
+                    ]
+                }
+            }]
+        };
+
+
+        myChart.setOption(opts);
+        myChart.hideLoading();
+    }
+
+</script>
+</body>
+</html>

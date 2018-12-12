@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html style="height: 100%" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <style type="text/css">
+        body, html {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑",serif;}
+        #container{height:100%}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=0CPbnRGGZonebHdqABN29jGPzTLXvmhS"></script>
+    <script src="echarts-lib/js/jquery-1.8.3.min.js"></script>
+</head>
+<script>
+
+    // 得到坐标信息
+    function showPosition(longitude,latitude) {
+        // 使用百度地图JS API
+        var point = new BMap.Point(longitude,latitude);
+
+        var geoc = new BMap.Geocoder();
+        geoc.getLocation(point, function(rs){
+            var addComp = rs.addressComponents;
+            alert('您所在城市：'+addComp.city);
+        });
+    }
+
+    // 得到错误信息
+    function showError(error)
+    {
+        switch(error.code)
+        {
+            case error.PERMISSION_DENIED:
+                alert("用户拒绝对获取地理位置的请求。");
+                break;
+            case error.POSITION_UNAVAILABLE:
+                alert("位置信息是不可用的。");
+                break;
+            case error.TIMEOUT:
+                alert("请求用户地理位置超时。");
+                break;
+            case error.UNKNOWN_ERROR:
+                alert("未知错误。");
+                break;
+        }
+    }
+function submit() {
+    var lo = $("#input1").val();
+    var la = $("#input2").val();
+    showPosition(lo,la);
+}
+</script>
+    lo:<input id="input1" /></br>
+    la:<input id="input2" /></br>
+    <button onclick="submit()">提交</button>
+</div>
+<div id="container" style="height: 100%"></div>
+</body>
+</html>
+<script type="text/javascript">
+    // 百度地图API功能
+    var map = new BMap.Map("container");    // 创建Map实例
+    map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
+    //添加地图类型控件
+    map.addControl(new BMap.MapTypeControl({
+        mapTypes:[
+            BMAP_NORMAL_MAP,
+            BMAP_HYBRID_MAP
+        ]}));
+    map.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的
+    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+</script>

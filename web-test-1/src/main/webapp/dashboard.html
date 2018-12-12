@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+
+
+
+</head>
+<body style="height: 100%; margin: 0">
+<div id="dashboard-app" style="height: 290px; width: 620px;float: left"></div>
+<div id="dashboard-computer" style="height: 290px; width: 620px;float: left"></div>
+<script src="echarts-lib/lib/echarts/echarts.min.js"></script>
+<script type="text/javascript">
+    var dashboard_app_dom = document.getElementById("dashboard-app");
+    var dashboard_app_myChart = echarts.init(dashboard_app_dom);
+    dashboard_app_option = {
+        tooltip : {
+            formatter: "{a} <br/>{c} {b}"
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        series : [
+            {
+                name: '数据包处理效率',
+                type: 'gauge',
+                z: 3,
+                min: 0,
+                max: 1500,
+                splitNumber: 10,
+                radius: '95%',
+                axisLine: {            // 坐标轴线
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        width: 10
+                    }
+                },
+                axisTick: {            // 坐标轴小标记
+                    length: 15,        // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: 'auto'
+                    }
+                },
+                splitLine: {           // 分隔线
+                    length: 20,         // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                        color: 'auto'
+                    }
+                },
+                axisLabel: {
+                    fontSize: 8
+                    // backgroundColor: 'auto',
+                    // borderRadius: 0,
+                    // color: '#eee',
+                    // padding: 0,
+                    // textShadowBlur: 1,
+                    // textShadowOffsetX: 1,
+                    // textShadowOffsetY: 1,
+                    // textShadowColor: '#222'
+                },
+                title : {
+                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder',
+                    fontSize: 8,
+                    fontStyle: 'italic'
+                },
+                detail : {
+                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    formatter: function (value) {
+                        value = (value + '').split('.');
+                        value.length < 2 && (value.push('00'));
+                        return ('00' + value[0]).slice(-2)
+                            + '.' + (value[1] + '00').slice(0, 2);
+                    },
+                    fontWeight: 'bolder',
+                    fontSize: 15,
+                    borderRadius: 10,
+                    backgroundColor: '#444',
+                    borderColor: '#aaa',
+                    shadowBlur: 0,
+                    shadowColor: '#333',
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 0,
+                    borderWidth: 0,
+                    textBorderColor: '#000',
+                    textBorderWidth: 0,
+                    textShadowBlur: 0,
+                    textShadowColor: '#fff',
+                    textShadowOffsetX: 0,
+                    textShadowOffsetY: 0,
+                    fontFamily: 'Arial',
+                    width: 25,
+                    color: '#eee',
+                    rich: {}
+                },
+                data:[{value: 600, name: '数据包处理效率/s'}]
+            },
+            {
+                name: '数据包处理延迟',
+                type: 'gauge',
+                center: ['20%', '65%'],    // 默认全局居中    位置
+                radius: '45%',          // 圆的大小
+                min:0,                  // 最小标值
+                max:2000,               // 最大标值
+                endAngle:45,            // 控制外圈可见长度
+                splitNumber:4,         // 分割成多少份
+                axisLine: {             // 坐标轴线
+                    lineStyle: {        // 属性lineStyle控制线条样式
+                        width: 8
+                    }
+                },
+                axisTick: {            // 坐标轴小标记
+                    length:12,        // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: 'auto'
+                    }
+                },
+                splitLine: {           // 分隔线
+                    length:20,         // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                        color: 'auto'
+                    }
+                },
+                pointer: {              // 指针
+                    width:5
+                },
+                axisLabel: {
+                    fontSize: 8
+                },
+                title: {
+                    show:false,
+                    fontSize: 8,
+                    offsetCenter: [0, '-30%']       // x, y，单位px
+                },
+                detail: {
+                    fontSize: 8,
+                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder'
+                },
+                data:[{value: 500, name: '数据包处理延迟'}]
+            },
+            {
+                name: '数据包接收效率',
+                type: 'gauge',
+                center: ['80%', '65%'],    // 默认全局居中    位置
+                radius: '45%',          // 圆的大小
+                min:0,                  // 最小标值
+                max:2000,               // 最大标值
+                startAngle: 135,
+                endAngle:-415,            // 控制外圈可见长度
+                splitNumber:5,         // 分割成多少份
+                axisLine: {             // 坐标轴线
+                    lineStyle: {        // 属性lineStyle控制线条样式
+                        width: 8
+                    }
+                },
+                axisTick: {            // 坐标轴小标记
+                    length:12,        // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: 'auto'
+                    }
+                },
+                splitLine: {           // 分隔线
+                    length:20,         // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                        color: 'auto'
+                    }
+                },
+                axisLabel: {
+                    fontSize: 8
+                },
+                pointer: {              // 指针
+                    width:5
+                },
+                title: {
+                    show:false,
+                    fontSize: 8,
+                    offsetCenter: [0, '-30%']       // x, y，单位px
+                },
+                detail: {
+                    fontSize: 8,
+                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder'
+                },
+                data:[{value: 500, name: '数据包接收效率'}]
+            }
+        ]
+    };
+
+    setInterval(function (){
+        dashboard_app_option.series[0].data[0].value = (Math.random()*1500).toFixed(2) - 0;
+        dashboard_app_option.series[1].data[0].value = (Math.random()*2000).toFixed(2) - 0;
+        dashboard_app_option.series[2].data[0].value = (Math.random()*2000).toFixed(2) - 0;
+        dashboard_app_myChart.setOption(dashboard_app_option,true);
+    },2000);
+    if (dashboard_app_option && typeof dashboard_app_option === "object") {
+        dashboard_app_myChart.setOption(dashboard_app_option, true);
+    }
+
+    // ==========================================================================================================
+    // ==========================================================================================================
+    // ==========================================================================================================
+    // ==========================================================================================================
+
+    var dashboard_computer_dom = document.getElementById("dashboard-computer");
+    var dashboard_computer_myChart = echarts.init(dashboard_computer_dom);
+    dashboard_computer_option = {
+        tooltip : {
+            formatter: "{a} <br/>{c} {b}"
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        series : [
+            {
+                name: '数据包处理效率',
+                type: 'gauge',
+                z: 3,
+                min: 0,
+                max: 1500,
+                splitNumber: 10,
+                radius: '95%',
+                axisLine: {            // 坐标轴线
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        width: 10
+                    }
+                },
+                axisTick: {            // 坐标轴小标记
+                    length: 15,        // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: 'auto'
+                    }
+                },
+                splitLine: {           // 分隔线
+                    length: 20,         // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                        color: 'auto'
+                    }
+                },
+                axisLabel: {
+                    fontSize: 8
+                    // backgroundColor: 'auto',
+                    // borderRadius: 0,
+                    // color: '#eee',
+                    // padding: 0,
+                    // textShadowBlur: 1,
+                    // textShadowOffsetX: 1,
+                    // textShadowOffsetY: 1,
+                    // textShadowColor: '#222'
+                },
+                title : {
+                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder',
+                    fontSize: 8,
+                    fontStyle: 'italic'
+                },
+                detail : {
+                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    formatter: function (value) {
+                        value = (value + '').split('.');
+                        value.length < 2 && (value.push('00'));
+                        return ('00' + value[0]).slice(-2)
+                            + '.' + (value[1] + '00').slice(0, 2);
+                    },
+                    fontWeight: 'bolder',
+                    fontSize: 15,
+                    borderRadius: 10,
+                    backgroundColor: '#444',
+                    borderColor: '#aaa',
+                    shadowBlur: 0,
+                    shadowColor: '#333',
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 0,
+                    borderWidth: 0,
+                    textBorderColor: '#000',
+                    textBorderWidth: 0,
+                    textShadowBlur: 0,
+                    textShadowColor: '#fff',
+                    textShadowOffsetX: 0,
+                    textShadowOffsetY: 0,
+                    fontFamily: 'Arial',
+                    width: 25,
+                    color: '#eee',
+                    rich: {}
+                },
+                data:[{value: 600, name: '数据包处理效率/s'}]
+            },
+            {
+                name: '数据包处理延迟',
+                type: 'gauge',
+                center: ['20%', '65%'],    // 默认全局居中    位置
+                radius: '45%',          // 圆的大小
+                min:0,                  // 最小标值
+                max:2000,               // 最大标值
+                endAngle:45,            // 控制外圈可见长度
+                splitNumber:4,         // 分割成多少份
+                axisLine: {             // 坐标轴线
+                    lineStyle: {        // 属性lineStyle控制线条样式
+                        width: 8
+                    }
+                },
+                axisTick: {            // 坐标轴小标记
+                    length:12,        // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: 'auto'
+                    }
+                },
+                splitLine: {           // 分隔线
+                    length:20,         // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                        color: 'auto'
+                    }
+                },
+                pointer: {              // 指针
+                    width:5
+                },
+                axisLabel: {
+                    fontSize: 8
+                },
+                title: {
+                    show:false,
+                    fontSize: 8,
+                    offsetCenter: [0, '-30%']       // x, y，单位px
+                },
+                detail: {
+                    fontSize: 8,
+                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder'
+                },
+                data:[{value: 500, name: '数据包处理延迟'}]
+            },
+            {
+                name: '数据包接收效率',
+                type: 'gauge',
+                center: ['80%', '65%'],    // 默认全局居中    位置
+                radius: '45%',          // 圆的大小
+                min:0,                  // 最小标值
+                max:2000,               // 最大标值
+                startAngle: 135,
+                endAngle:-415,            // 控制外圈可见长度
+                splitNumber:5,         // 分割成多少份
+                axisLine: {             // 坐标轴线
+                    lineStyle: {        // 属性lineStyle控制线条样式
+                        width: 8
+                    }
+                },
+                axisTick: {            // 坐标轴小标记
+                    length:12,        // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle控制线条样式
+                        color: 'auto'
+                    }
+                },
+                splitLine: {           // 分隔线
+                    length:20,         // 属性length控制线长
+                    lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                        color: 'auto'
+                    }
+                },
+                axisLabel: {
+                    fontSize: 8
+                },
+                pointer: {              // 指针
+                    width:5
+                },
+                title: {
+                    show:false,
+                    fontSize: 8,
+                    offsetCenter: [0, '-30%']       // x, y，单位px
+                },
+                detail: {
+                    fontSize: 8,
+                    // 其余属性默认使用全局文本样式，详见TEXTSTYLE
+                    fontWeight: 'bolder'
+                },
+                data:[{value: 500, name: '数据包接收效率'}]
+            }
+        ]
+    };
+
+    setInterval(function (){
+        dashboard_computer_option.series[0].data[0].value = (Math.random()*1500).toFixed(2) - 0;
+        dashboard_computer_option.series[1].data[0].value = (Math.random()*2000).toFixed(2) - 0;
+        dashboard_computer_option.series[2].data[0].value = (Math.random()*2000).toFixed(2) - 0;
+        dashboard_computer_myChart.setOption(dashboard_computer_option,true);
+    },2000);
+    if (dashboard_computer_option && typeof dashboard_computer_option === "object") {
+        dashboard_computer_myChart.setOption(dashboard_computer_option, true);
+    }
+
+
+</script>
+</body>
+</html>

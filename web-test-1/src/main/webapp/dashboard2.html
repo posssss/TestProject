@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+
+</head>
+<body style="height: 100%; margin: 0">
+<div id="dashboard_computer_container" style="height: 750px;width: 100%"></div>
+<!--<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>-->
+<script src="echarts-lib/lib/echarts/echarts.min.js"></script>
+<script type="text/javascript">
+    var dashboard_computer_demoData = [
+        { name: '数据包处理效率', value: 500, unit: '数据包/s', pos: ['16.6%', '25%'], range: [0, 1500] },
+        { name: '数据包处理延迟', value: 300, unit: '个数据包', pos: ['49.8%', '25%'], range: [0, 2000] },
+        { name: '数据包接收效率', value: 500, unit: '数据包/s', pos: ['83%', '25%'], range: [0, 1500] },
+        { name: 'cpu利用率', value: 50, unit: '%', pos: ['16.6%', '75%'], range: [0, 100] },
+        { name: '内存使用情况', value: 6.25, unit: 'G', pos: ['49.8%', '75%'], range: [0, 8] , splitNum: 8},
+        { name: '磁盘使用情况', value: 130, unit: 'M', pos: ['83%', '75%'], range: [0, 500] }
+    ];
+
+    var dashboard_computer_dom = document.getElementById("dashboard_computer_container");
+    var dashboard_computer_myChart = echarts.init(dashboard_computer_dom);
+    var dashboard_computer_highlight = '#03b7c9';
+    function dashboard_computer_optionSeries(dashboard_computer_data) {
+        var result = [];
+        dashboard_computer_data.forEach(function(item) {
+            result.push(
+                // 外围刻度
+                {
+                    type: 'gauge',
+                    center: item.pos,
+                    radius: '30%',  // 1行3个
+                    splitNumber: item.splitNum || 10,
+                    min: item.range[0],
+                    max: item.range[1],
+                    startAngle: 225,
+                    endAngle: -45,
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            width: 2,
+                            shadowBlur: 0,
+                            color: [
+                                [1, dashboard_computer_highlight]
+                            ]
+                        }
+                    },
+                    axisTick: {
+                        show: true,
+                        lineStyle: {
+                            color: dashboard_computer_highlight,
+                            width: 1
+                        },
+                        length: -5,
+                        splitNumber: 10
+                    },
+                    splitLine: {
+                        show: true,
+                        length: -14,
+                        lineStyle: {
+                            color: dashboard_computer_highlight
+                        }
+                    },
+                    axisLabel: {
+                        distance: -20,
+                        textStyle: {
+                            color: dashboard_computer_highlight,
+                            fontSize: '14',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    pointer: {
+                        show: 0
+                    },
+                    detail: {
+                        show: 0
+                    }
+                },
+
+                // 内侧指针、数值显示
+                {
+                    name: item.name,
+                    type: 'gauge',
+                    center: item.pos,
+                    radius: '30.33%',
+                    startAngle: 225,
+                    endAngle: -45,
+                    min: item.range[0],
+                    max: item.range[1],
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            width: 16,
+                            color: [
+                                [1, 'rgba(255,255,255,.1)']
+                            ]
+                        }
+                    },
+                    axisTick: {
+                        show: 0
+                    },
+                    splitLine: {
+                        show: 0
+                    },
+                    axisLabel: {
+                        show: 0
+                    },
+                    pointer: {
+                        show: true,
+                        length: '105%'
+                    },
+                    detail: {
+                        show: true,
+                        offsetCenter: [0, '100%'],
+                        textStyle: {
+                            fontSize: 15,
+                            color: '#fff'
+                        },
+                        formatter: [
+                            '{value} ' + (item.unit || ''),
+                            '{name|' + item.name + '}'
+                        ].join('\n'),
+                        rich: {
+                            name: {
+                                fontSize: 14,
+                                lineHeight: 30,
+                                color: '#ddd'
+                            }
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: dashboard_computer_highlight
+                        }
+                    },
+                    data: [{
+                        value: item.value
+                    }]
+                }
+            );
+        });
+        return result;
+    }
+    dashboard_computer_option = {
+        backgroundColor: '#222939',
+        series: dashboard_computer_optionSeries(dashboard_computer_demoData)
+    };
+
+
+
+
+
+    setInterval(function (){
+        dashboard_computer_demoData[0].value = (Math.random()*1500).toFixed(2) - 0;
+        dashboard_computer_demoData[1].value = (Math.random()*2000).toFixed(2) - 0;
+        dashboard_computer_demoData[2].value = (Math.random()*1500).toFixed(2) - 0;
+        dashboard_computer_demoData[3].value = (Math.random()*100).toFixed(2) - 0;
+        dashboard_computer_demoData[4].value = (Math.random()*8).toFixed(2) - 0;
+        dashboard_computer_demoData[5].value = (Math.random()*500).toFixed(2) - 0;
+        dashboard_computer_option.series = dashboard_computer_optionSeries(dashboard_computer_demoData);
+        dashboard_computer_myChart.setOption(dashboard_computer_option,true);
+    },1000);
+
+    if (dashboard_computer_option && typeof dashboard_computer_option === "object") {
+        dashboard_computer_myChart.setOption(dashboard_computer_option, true);
+    }
+</script>
+</body>
+</html>

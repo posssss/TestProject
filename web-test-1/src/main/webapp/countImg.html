@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+<hr>
+<div style="width: 100%;" align="center"><h2>最近七天报表</h2></div>
+<div id="count_weekly_container" style="height: 400px;width: 100%"></div>
+<hr>
+<div style="width: 100%;" align="center"><h2>年度报表</h2></div>
+<div id="count_month_container" style="height: 400px;width: 100%"></div>
+<script src="echarts-lib/lib/echarts/echarts.min.js"></script>
+<script type="text/javascript">
+
+    var reportForm_weekly_dateJson = '["12-1","12-2","12-3","12-4","12-5","12-6","12-7"]';
+    var reportForm_weekly_dataJson = '[[32, 33, 30, 33, 49, 22, 15],[10, 11, 25, 10, 0, 0 , 0]]';
+    var reportForm_weekly_dateObject = JSON.parse(reportForm_weekly_dateJson);
+    var reportForm_weekly_dataObject = JSON.parse(reportForm_weekly_dataJson);
+
+    var reportForm_month_dateJson = '["1", "2", "3", "4", "5", "6","7", "8", "9", "10", "11", "12"]';
+    var reportForm_month_dataJson =
+        '[[320, 330, 300, 330, 490, 220, 150, 330, 300, 330, 490, 220],' +
+        ' [50, 20, 10, 0, 0, 20 , 1 , 0, 1, 5, 5, 0 ]]';
+    var reportForm_month_dateObject = JSON.parse(reportForm_month_dateJson);
+    var reportForm_month_dataObject = JSON.parse(reportForm_month_dataJson);
+
+
+    var count_day_app = {};
+    var count_day_option;
+
+    count_day_app.config = {
+        rotate: 90,
+        align: 'left',
+        verticalAlign: 'middle',
+        position: 'insideBottom',
+        distance: 15
+    };
+
+
+    var count_day_labelOption = {
+        normal: {
+            show: true,
+            position: count_day_app.config.position,
+            distance: count_day_app.config.distance,
+            align: count_day_app.config.align,
+            verticalAlign: count_day_app.config.verticalAlign,
+            rotate: count_day_app.config.rotate,
+            formatter: '{c}  {name|{a}}',
+            fontSize: 15,
+            rich: {
+                name: {
+                    textBorderColor: '#fff'
+                }
+            }
+        }
+    };
+
+    count_day_option = {
+        color: ['#003366', '#DC143C'],
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {
+            data: ['异常通道', '系统关闭次数']
+        },
+        toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                mark: {show: true},
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                axisTick: {show: false},
+                data: []
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value'
+            }
+        ],
+        series: [
+            {
+                name: '异常通道',
+                type: 'bar',
+                barGap: 0,
+                label: count_day_labelOption,
+                data: []
+            },
+            {
+                name: '系统关闭次数',
+                type: 'bar',
+                label: count_day_labelOption,
+                data: []
+            }
+        ]
+    };
+
+    var count_weekly_container = document.getElementById("count_weekly_container");
+    var count_weekly_myChart = echarts.init(count_weekly_container);
+    var count_month_container = document.getElementById("count_month_container");
+    var count_month_myChart = echarts.init(count_month_container);
+
+    count_day_option.xAxis[0].data = reportForm_weekly_dateObject;
+    count_day_option.series[0].data = reportForm_weekly_dataObject[0];
+    count_day_option.series[1].data = reportForm_weekly_dataObject[1];
+    count_weekly_myChart.setOption(count_day_option, true);
+
+    count_day_option.xAxis[0].data = reportForm_month_dateObject;
+    count_day_option.series[0].data = reportForm_month_dataObject[0];
+    count_day_option.series[1].data = reportForm_month_dataObject[1];
+    count_month_myChart.setOption(count_day_option, true)
+</script>
+</body>
+</html>
